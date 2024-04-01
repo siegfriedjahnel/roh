@@ -1,0 +1,92 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>title</title>
+<meta name="author" content="name">
+<meta name="description" content="description here">
+<meta name="keywords" content="keywords,here">
+<style>
+.dvOutput{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+
+}
+</style>
+</head>
+<script src="mats.js"></script>
+<script src="bestand.js"></script>
+<body>
+<div class="dvOutput">
+
+  <div id="dvLeft">
+    <table>
+      <thead>
+        <tr>
+          <th>Materialnummer</th><th>Material</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th><th>-</th>
+        </tr>
+      </thead>
+      <tbody id = "tblBody"></tbody>
+    </table>
+  </div>
+  <div id ="dvRight" class="dvDetail">
+    <table>
+      <thead>
+        <th>Charge</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th><th>-</th>
+      </thead>
+      <tbody id ="tbDetail"></tbody>
+    </table>
+  </div>
+</div>
+
+
+</body>
+<script>
+  const tblBody = document.getElementById("tblBody");
+  const tbDetail = document.getElementById("tbDetail");
+  const data = bestand.data;
+  const roh = data.filter((row)=>row.materialart == "ROH ");
+
+  mats.forEach(element => {
+    const matnr = element.matnr;
+    const name = element.name;
+    const res = roh.filter((row => row.materialnummer == matnr));
+    let unit = "";
+    let mengefrei = 0;
+    let mengequal = 0;
+    let mengegesp = 0;
+    const tblRow = document.createElement("tr");
+    let i = 0;
+    res.forEach(el =>{
+      unit = el.unit;
+      
+      mengefrei = mengefrei + parseFloat(el.mengefrei.toString().split('.')[0]);
+      mengequal = mengequal + parseFloat(el.mengequal.toString().split('.')[0]);
+      mengegesp = mengegesp + parseFloat(el.mengegesp.toString().split('.')[0]);
+      i++;
+     });
+     tblRow.innerHTML = `<td>${matnr}</td><td>${name}${i}</td><td>${mengefrei}${unit}</td><td>${mengegesp}${unit}</td><td>${mengequal}${unit}</td>
+     <td><button onClick = detail('${matnr}')>detail</button</td>`;
+      //console.log(name +":"+ mengefrei+ unit);
+      
+      tblBody.appendChild(tblRow);
+    });
+
+  function detail(matnr){
+    tbDetail.innerHTML = "";
+    
+    const detailedData = roh.filter((row) => row.materialnummer == matnr);
+    detailedData.forEach(element => {
+      const tr = document.createElement("tr");
+      //console.table(element);
+      tr.innerHTML += `<td>${element.charge}</td><td>${element.mengefrei}</td>
+      <td>${element.mengegesp}</td><td>${element.mengequal}</td>`;
+      console.log(tr);
+      tbDetail.appendChild(tr);
+    });
+
+  }
+</script>
+</html>
