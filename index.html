@@ -11,8 +11,15 @@
 .dvOutput{
   display: flex;
   flex-direction: row;
-  justify-content: left;
+  gap: 1em;
+  padding: 1em;
 
+}
+table, tr,td,th{
+  padding: 0.2em;
+  border-style: solid;
+  border-collapse: collapse;
+  border-width: 1px;
 }
 </style>
 </head>
@@ -22,19 +29,21 @@
 <div class="dvOutput">
 
   <div id="dvLeft">
+    <h3>Alle Rohstoffe</h3>
     <table>
       <thead>
         <tr>
-          <th>Materialnummer</th><th>Material</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th><th>-</th>
+          <th>Materialnummer</th><th>Material</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th><th></th>
         </tr>
       </thead>
       <tbody id = "tblBody"></tbody>
     </table>
   </div>
   <div id ="dvRight" class="dvDetail">
+    <h3>Detail zu einem Rohstoff</h3>
     <table>
       <thead>
-        <th>Charge</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th><th>-</th>
+        <th>Charge</th><th>MengeFrei</th><th>MengeGesp</th><th>MengeGesp</th>
       </thead>
       <tbody id ="tbDetail"></tbody>
     </table>
@@ -44,6 +53,7 @@
 
 </body>
 <script>
+  const dvRight = document.getElementById("dvRight");
   const tblBody = document.getElementById("tblBody");
   const tbDetail = document.getElementById("tbDetail");
   const data = bestand.data;
@@ -67,7 +77,7 @@
       mengegesp = mengegesp + parseFloat(el.mengegesp.toString().split('.')[0]);
       i++;
      });
-     tblRow.innerHTML = `<td>${matnr}</td><td>${name}${i}</td><td>${mengefrei}${unit}</td><td>${mengegesp}${unit}</td><td>${mengequal}${unit}</td>
+     tblRow.innerHTML = `<td>${matnr}</td><td>${name} (${i} Chargen)</td><td>${mengefrei}${unit}</td><td>${mengegesp}${unit}</td><td>${mengequal}${unit}</td>
      <td><button onClick = detail('${matnr}')>detail</button</td>`;
       //console.log(name +":"+ mengefrei+ unit);
       
